@@ -1,0 +1,43 @@
+<h1>Catalogs</h1>
+<%= link_to 'New', new_catalog_path, :class => 'btn btn-primary' %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Number Ebook</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @catalogs.each do |catalog| %>
+      <tr>
+        <td><%= link_to catalog.title, catalog_path(catalog) %></td>
+        <td><%= catalog.books.size %></td>
+        <td>
+          <%= link_to 'Edit', edit_catalog_path(catalog), :class => 'btn btn-mini' %>
+          <%= link_to 'Destroy', catalog_path(catalog), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h1>Shared Catalogs</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Number Ebook</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @shared_catalogs.each do |shared_catalog| %>
+      <tr>
+        <td><%= link_to shared_catalog.catalog.title, catalog_path(shared_catalog.catalog) %></td>
+        <td><%= shared_catalog.catalog.books.size %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New', new_catalog_path, :class => 'btn btn-primary' %>

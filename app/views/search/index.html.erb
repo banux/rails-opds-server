@@ -1,0 +1,27 @@
+<h1>Result for "<%= @search %>"	
+</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Title</th>
+      <th>Author</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @books.each do |book| %>
+      <tr>
+      	<td><img src="<%= book.cover.thumb.url %>" /></td>
+        <td><%= link_to book.title.slice(0, 40), book_path(book) %><br />
+        <% if current_user && book.user_id == current_user.id %>
+          <%= link_to 'Edit', edit_book_path(book) %> |
+          <%= link_to 'Destroy', book_path(book), :method => :delete, :confirm => 'Are you sure?' %>
+        <% end %>
+		</td>
+        <td><%= book.author %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= will_paginate @books %>

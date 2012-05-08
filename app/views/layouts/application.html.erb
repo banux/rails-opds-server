@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyOpds</title>
+    <%= csrf_meta_tags %>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <%= stylesheet_link_tag "application", :media => "all" %>
+
+    <!-- Le fav and touch icons -->
+    <link href="/images/favicon.ico" rel="shortcut icon">
+    <link href="/images/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/images/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72">
+    <link href="/images/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114">
+  </head>
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+          <div class="container-fluid">
+          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">MyOpds</a>
+          <div class="container-fluid nav-collapse">
+            <ul class="nav">
+                <li><%= link_to "Books", "/books"  %></li>
+                <li><%= link_to "Catalogs", "/catalogs"  %></li>
+            </ul>
+            <form class="navbar-search pull-left" action="/search/index">
+              <input type="text" class="search-query" placeholder="Search" name="q" autocomplete="off" spellcheck="off">
+            </form>
+			<ul class='nav pull-right'>
+                <% if current_user %>
+                  <li><%= link_to "Profile", edit_user_registration_path  %></li>
+                <% else %>
+                  <li><%= link_to "Login", new_user_session_path  %></li>
+                  <li><%= link_to "Signup", new_user_registration_path %></li>                  
+                <% end %>
+                <% if current_user %>
+                <li><%= link_to "Logout", destroy_user_session_path, :method => :delete %></li>
+                <% end %>
+				
+			</ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span9">
+          <div class="flash">
+        <% flash.each do |type, message| -%>
+          <div class="message <%= type %>">
+            <p><%= message %></p>
+          </div>
+        <% end -%>
+      </div>
+          <%= yield %>
+        </div>
+        <div class="span3">
+          <div class="well sidebar-nav visible-desktop">
+            <% if current_user %>
+            <ul class="nav nav-list">
+              <li class="nav-header">My Catalogs</li>
+              <% current_user.catalogs.limit(5).order('created_at desc').each do |cat| %>
+                <li><%= link_to cat.title, cat %></li>
+              <% end %>
+            </ul>
+            <ul class="nav nav-list">
+              <li class="nav-header">Shared Catalogs</li>
+              <% current_user.shared_catalogs.limit(5).order('created_at desc').each do |cat| %>
+                <li><%= link_to cat.catalog.title, cat.catalog %></li>
+              <% end %>
+            </ul>
+            <% end %>
+
+          </div><!--/.well -->
+        </div><!--/span-->
+      </div><!--/row-->
+
+      <footer>
+        <p>&copy; Opds Server 2012</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <%= javascript_include_tag "application" %>
+
+  </body>
+</html>

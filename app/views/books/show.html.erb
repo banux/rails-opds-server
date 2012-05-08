@@ -1,0 +1,28 @@
+<h1><%= @book.title %></h1>
+<% if @book.cover %>
+	<img class="book_cover_detail" src="<%= @book.cover.medium.url %>" />
+<% end %>
+<div>
+<p>
+  <b>Author</b><br>
+  <%= @book.author %>
+</p>
+
+<p>
+  <b>Description</b><br>
+  <%= @book.description %>
+</p>
+
+<p>
+  <b>Epub</b><br>
+  <%= link_to 'Download', @book.epub.url, :class => 'btn btn-success' %>
+</p>
+</div>
+<br class="clear" />
+<% if current_user && @book.user_id == current_user.id %>
+<div class="form-actions">
+  <%= link_to 'Back', books_path, :class => 'btn'  %>
+  <%= link_to 'Edit', edit_book_path(@book), :class => 'btn' %>
+  <%= link_to 'Delete', book_path(@book), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+</div>
+<% end %>

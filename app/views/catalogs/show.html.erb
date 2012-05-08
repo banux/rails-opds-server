@@ -1,0 +1,26 @@
+<h1><%= @catalog.title %></h1>
+
+<p>
+  <%= @catalog.description %>
+</p>
+
+<% @books.each do |book| %>
+<div class="catalog_book">
+	<% if book.cover && book.cover.thumb %>
+		<%= link_to image_tag(book.cover.thumb), book, :class => 'catalog_cover' %>
+	<% end %>
+	<div class="info">
+		<% title = book.title %>
+		<% if ! book.author.nil?
+			title = title + ' - ' + book.author
+		   end %>
+		<h2><%= link_to title, book %></h2>
+		<p><%= book.description %></p>
+		<%= link_to 'Download', book.epub.url, :class => "btn btn-success download" %>
+	</div>
+	<div class="clear" /></div>
+</div>
+
+<% end %>
+
+<%= will_paginate @books %>

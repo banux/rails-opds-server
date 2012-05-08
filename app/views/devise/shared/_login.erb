@@ -1,0 +1,36 @@
+<%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => "form login"}) do |f| %>
+<%= devise_error_messages! %>
+<div class='well span3'>
+	<h3>Already have an account?</h3>
+	<div class="control-group">
+		<div class="controls">
+			<%= f.text_field :email, :class => 'text_field span3', :placeholder => "Your email" %>
+		</div>
+	</div>
+	<div class="control-group">
+		<%= f.label :password, :class => 'control-label' %>
+		<div class="controls">
+			<%= f.password_field :password, :class => 'text_field span3', :placeholder => "password" %>
+		</div>
+	</div>
+
+	<div class='control-group'>
+	<% if devise_mapping.rememberable? -%>
+	<label for='remember_me' class='checkbox'>
+			<%= f.check_box :remember_me %> Remember me
+	</label>
+	<% end -%>
+	<%= render :partial => "devise/shared/links" %>
+		
+	</div>
+	
+	<div class="control-group">
+		<%= f.submit 'Login', :class => 'btn btn-info' %>
+		<%= link_to 'Cancel', home_index_path, :class => 'btn' %>
+	</div>
+<% end %>
+
+	
+	
+</div>
+

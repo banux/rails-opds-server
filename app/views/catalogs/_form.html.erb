@@ -1,0 +1,67 @@
+<%= form_for @catalog, :html => { :class => 'form-horizontal' } do |f| %>
+  <fieldset>
+    <legend><%= controller.action_name.capitalize %> Catalog</legend>
+
+    <div class="control-group">
+      <%= f.label :title, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :title, :class => 'text_field span3' %>
+      </div>
+    </div>
+      
+    <div class="control-group">
+      <%= f.label :Public, :class => 'control-label' %>
+      <div class="controls">
+        <label class="checkbox">
+        <%= f.check_box :status %>
+      </label>
+      </div>
+    </div>
+
+    <% if controller.action_name == "edit" %>
+    <div class="control-group">
+      <%= f.label 'Email', :class => 'control-label' %>
+      <div class="controls">
+        <%= text_field_tag 'user_id', '', :class => 'text_field span3 shared_user_email' %>
+        <%= link_to 'Share With', add_share_catalog_path(@catalog), :class => 'shared_with btn btn-primary' %>
+        <table class="table table-striped table-bordered table_shared">
+          <thead>
+            <tr>
+              <th>
+                User
+              </th>
+              <th>
+                Unshare
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @catalog.shared_catalogs.each do |c| %>
+            <tr>
+              <td>
+                <%= c.user.name %>
+              </td>
+              <td>
+                <%= link_to 'Unshare', del_share_catalog_path(@catalog) + '?share_id=' + c.id.to_s, :class => 'unshared_with btn btn-danger' %>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>      
+    <% end %>
+
+    <div class="control-group">
+      <%= f.label :description, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_area :description, :class => 'text_area span6' %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to 'Cancel', catalogs_path, :class => 'btn' %>
+    </div>
+  </fieldset>
+<% end %>
