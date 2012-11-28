@@ -1,36 +1,14 @@
-<h1>Books
-	<%= link_to 'Add new', new_book_path, :class => 'btn btn-primary pull-right' %>
-</h1>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Author</th>
-      <th>Catalogs</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @books.each do |book| %>
-      <tr>
-        <td><%= link_to book.title.slice(0, 40), book_path(book) %><br />
-          <%= link_to 'Edit', edit_book_path(book) %> |
-          <%= link_to 'Destroy', book_path(book), :method => :delete, :confirm => 'Are you sure?' %>		
-		</td>
-        <td><%= book.author %></td>
-        <td>
-        <% current_user.catalogs.each do |cat| %>
-          <% if(book.catalogs.include?(cat)) %>
-            <%= link_to "Remove from " + cat.title, del_book_catalog_path(cat) + "?book_id=" + book.id.to_s,  :class => "btn btn-mini btn-danger manage_catalog_book", :title => 'Catalogs', 'data-content' => "Remove this book from Catalog " + cat.title + "." %>
-          <% else %>
-            <%= link_to cat.title, add_book_catalog_path(cat) + "?book_id=" + book.id.to_s, :class => "btn btn-mini btn-success manage_catalog_book", :title => 'Catalogs', 'data-content' => "Add this book to Catalog " + cat.title + "." %>            
-          <% end %>
-        <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
 
+<div>
+	<%= link_to 'Add new', new_book_path, :class => 'btn btn-primary pull-left' %>
+</div>
+<h1></h1>
+<br class="clear" />
 
+<ul class="thumbnails">
+<%= render :partial => 'book', :collection => @books %>
+</ul>
 
 <%= will_paginate @books %>
+
+<br class="clearfix" />

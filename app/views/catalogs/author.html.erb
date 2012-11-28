@@ -1,0 +1,7 @@
+<ul>
+<% @authors.each do |aut| %>
+<li>
+<%= link_to aut, books_path() + '?author=' + u(aut) %>
+</li>
+<% end %>
+</ul>

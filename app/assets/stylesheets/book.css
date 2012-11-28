@@ -1,13 +1,7 @@
-.book_cover_detail {float: left; margin-right: 30px;}
-
-.clear {clear: both;}
-
-.catalog_cover {margin-right: 5px;}
-
-.catalog_book {background-color: #F5F5F5; border-radius: 15px; margin: 10px 0 10px 0; padding: 20px 20px 20px 20px;}
-
-.catalog_book a.download {margin-left: 720px;}
-.catalog_book .info {width: 800px; float: right;}
-.catalog_book .info h2 a {color: #333333;}
 
 .table_shared {margin-top: 5px; width: 40%;}
+.book_catalog {width: 120px; margin-top: 20px;}
+.book_catalog a {padding: 15px;}
+.book_description .autor {font-size: 22px;}
+.qrcode_img {padding-bottom: 5px;}
+.metadata a {color: #999;}

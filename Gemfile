@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.2'
+gem 'rails', '3.2.8'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -15,9 +15,11 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer'
+  gem 'therubyracer', '0.11.0beta5'
 
   gem 'uglifier', '>= 1.0.3'
+  gem 'jqtree-rails'
+  gem 'plupload-rails'
 end
 
 gem 'jquery-rails'
@@ -38,6 +40,10 @@ gem 'tire'
 gem 'tire-contrib'
 gem 'newrelic_rpm'
 gem 'sanitize'
+gem 'acts-as-taggable-on', '~> 2.3.1'
+gem 'cache_digests'
+gem 'rqrcode-rails3'
+gem 'closure_tree'
 
 group :production do
   gem "mysql2"

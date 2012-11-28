@@ -63,3 +63,21 @@ $(document).ready(function() {
 	});
 });
 
+$(document).ready(function() {
+	var $container = $('.thumbnails');
+
+    $container.imagesLoaded( function(){
+        $container.masonry({
+            itemSelector : '.thumbnail',
+            isAnimated: true,
+            gutter: 5,
+            columnWidth: 70
+        });
+    });
+});
+
+$('#show_category_tree').tree({
+    data: category_data,
+    autoEscape: false
+});
+		

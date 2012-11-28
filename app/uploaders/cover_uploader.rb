@@ -45,6 +45,10 @@ class CoverUploader < CarrierWave::Uploader::Base
   #   process :scale => [50, 50]
   # end
 
+  version :large do
+    process :resize_to_fit => [400, 900]
+  end
+
   version :medium do
     process :resize_to_fit => [200, 450]
   end

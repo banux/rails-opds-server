@@ -34,9 +34,12 @@
           <div class="container-fluid nav-collapse">
             <ul class="nav">
                 <li><%= link_to "Books", "/books"  %></li>
-                <li><%= link_to "Catalogs", "/catalogs"  %></li>
+                <li><%= link_to "Autors", "/catalogs/author"  %></li>
+                <% if current_user && current_user.admin %>
+                <li><%= link_to "Categories", "/categories"  %></li>
+                <% end %>
             </ul>
-            <form class="navbar-search pull-left" action="/search/index">
+            <form class="navbar-search pull-left" action="/books">
               <input type="text" class="search-query" placeholder="Search" name="q" autocomplete="off" spellcheck="off">
             </form>
 			<ul class='nav pull-right'>
@@ -72,18 +75,95 @@
           <div class="well sidebar-nav visible-desktop">
             <% if current_user %>
             <ul class="nav nav-list">
-              <li class="nav-header">My Catalogs</li>
-              <% current_user.catalogs.limit(5).order('created_at desc').each do |cat| %>
-                <li><%= link_to cat.title, cat %></li>
-              <% end %>
-            </ul>
-            <ul class="nav nav-list">
-              <li class="nav-header">Shared Catalogs</li>
-              <% current_user.shared_catalogs.limit(5).order('created_at desc').each do |cat| %>
-                <li><%= link_to cat.catalog.title, cat.catalog %></li>
-              <% end %>
+              <img src="<%= url_for(:controller => 'books', :action => 'index', :format => 'png') %>" class = "qrcode_img" />
+              <%= link_to('OPDS Link', :controller => 'catalogs', :action => 'index', :format => 'atom',:auth_token => current_user.authentication_token, :only_path => false, :protocol => "opds") %>
             </ul>
             <% end %>
+            <% if @facets %>
+            <hr />
+            <ul class="nav nav-list">
+              <% if !@facets['author'].nil? %>              
+                  <li class="nav-header">Language</li>
+                  <ul class="nav nav-list">
+                    <% @facets['lang']['terms'].each do |t| %>
+                      <li>
+                        <% if params[:lang] && params[:lang] == t['term'] %>
+                          <%= link_to('<i class="icon-remove"></i>'.html_safe + params[:lang], url_for(params.merge(:lang => nil, :page => 1))) %>
+                        <% else %>
+                          <%= link_to(t['term'] + " (" + t['count'].to_s + ")", url_for(params.merge(:lang => t['term']))) %>
+                        <% end %>
+                      </li>
+                    <% end %>
+                  </ul>
+                <% end %>
+                <% if !@facets['author'].nil? %>              
+                  <li class="nav-header">Author</li>
+                  <ul class="nav nav-list">
+                    <% @facets['author']['terms'].each do |t| %>
+                      <li>
+                        <% if params[:author] && params[:author] == t['term'] %>
+                          <%= link_to('<i class="icon-remove"></i>'.html_safe + params[:author], url_for(params.merge(:author => nil))) %>
+                        <% else %>
+                          <%= link_to(t['term'] + " (" + t['count'].to_s + ")", url_for(params.merge(:author => t['term'], :page => 1))) %>
+                        <% end %>
+                      </li>
+                    <% end %>
+                  </ul>
+                <% end %>
+                <% if !@facets['category'].nil? %>                            
+                  <li class="nav-header">Category</li>
+                  <ul class="nav nav-list">                    
+                      <li>
+                        <% if params[:category] %>
+                          <%= link_to('<i class="icon-remove"></i>'.html_safe + Category.find(params[:category]).name, url_for(params.merge(:category => nil))) %>
+                        <% else %>
+                        <% @facets['category']['terms'].each do |t| %>
+                          <%= link_to(Category.find(t['term']).name + " (" + t['count'].to_s + ")", url_for(params.merge(:category => t['term'], :page => 1))) %>
+                        <% end %>
+                      </li>
+                    <% end %>
+                  </ul>
+                  <% if params[:category] && !@facets['category']['terms'].empty? %>
+                  <li class="nav-header">SubCategory</li>
+                  <ul class="nav nav-list">
+                    <% @facets['category']['terms'].each do |t| %>
+                      <li>
+                        <%= link_to(Category.find(t['term']).name + " (" + t['count'].to_s + ")", url_for(params.merge(:category => t['term'], :page => 1))) %>
+                      </li>
+                    <% end %>
+                  </ul>
+                  <% end %>
+                <% end %>
+                <% if !@facets['serie'].nil? %>              
+                  <li class="nav-header">Serie</li>
+                  <ul class="nav nav-list">
+                    <% @facets['serie']['terms'].each do |t| %>
+                      <li>
+                        <% if params[:serie] && params[:serie] == t['term'] %>
+                          <%= link_to('<i class="icon-remove"></i>'.html_safe + params[:serie], url_for(params.merge(:serie => nil, :page => 1))) %>
+                        <% else %>
+                          <%= link_to(t['term'] + " (" + t['count'].to_s + ")", url_for(params.merge(:serie => t['term'], :page => 1))) %>
+                        <% end %>
+                      </li>
+                    <% end %>
+                  </ul>
+                <% end %>
+                <% if !@facets['tag'].nil? %>
+                  <li class="nav-header">Tags</li>
+                  <ul class="nav nav-list">                  
+                    <% @facets['tag']['terms'].each do |t| %>
+                      <li>
+                        <% if params[:tag] && params[:tag] == t['term'] %>
+                          <%= link_to('<i class="icon-remove"></i>'.html_safe + params[:tag], url_for(params.merge(:tag => nil, :page => 1))) %>
+                        <% else %>
+                          <%= link_to(t['term'] + " (" + t['count'].to_s + ")", url_for(params.merge(:tag => t['term'], :page => 1))) %>
+                        <% end %>
+                      </li>
+                    <% end %>
+                  </ul>
+                <% end %>
+              <% end %>
+            </ul>
 
           </div><!--/.well -->
         </div><!--/span-->
@@ -99,6 +179,20 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <%= javascript_include_tag "application" %>
-
+<script type="text/javascript">
+  $(function(){
+    $("#uploader").pluploadQueue({
+      runtimes: 'html5,html4',
+      url: '',
+      filters : [
+        {title : "Epub files", extensions : "epub"},
+    ],
+      multipart_params: {
+        '<%= request_forgery_protection_token %>': '<%= form_authenticity_token %>',
+        '<%= request.session_options[:key] %>': '<%= request.session_options[:id] %>'
+      }
+    });
+  });
+</script>
   </body>
 </html>

@@ -17,9 +17,52 @@
     </div>
 
     <div class="control-group">
+    <%= f.label :lang, :class => 'control-label' %>
+      <div class="controls">  
+        <%= f.select :lang, [['English', 'en'], ['French', 'fr']], :include_blank => true %>
+    </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :serie, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :serie, :class => 'text_field span6' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :serie_number, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :serie_number, :class => 'text_field span6' %>
+      </div>
+    </div>
+
+
+    <div class="control-group">
+      <%= f.label :category, :class => 'control-label' %>
+      <div class="controls">  
+        <%= f.select :category_id, Category.roots.order('name asc').collect {|cat|
+          tab = []
+          tab << [cat.name, cat.id]
+          cat.children.order('name asc').each do |subcat|
+            tab << ['- ' + subcat.name, subcat.id]
+          end
+          tab
+         }.flatten(1) %>
+    </div>
+    </div>
+
+    <div class="control-group">
       <%= f.label :description, :class => 'control-label' %>
       <div class="controls">
         <%= f.text_area :description, :class => 'text_area span6' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :tag_list, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :tag_list, :class => 'text_field span6' %>
       </div>
     </div>
 
@@ -29,6 +72,16 @@
         <%= f.file_field :epub, :class => "span5" %>
         <% if @book.epub %>
         <%= link_to "Download", @book.epub.url, :class => 'btn btn-mini btn-primary' %>
+      <% end %>
+      </div>      
+    </div>
+
+    <div class="control-group">
+      <%= f.label :cover_file, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.file_field :cover, :class => "span5" %>
+        <% if @book.cover %>
+        <%= link_to "Download", @book.cover.url, :class => 'btn btn-mini btn-primary' %>
       <% end %>
       </div>      
     </div>

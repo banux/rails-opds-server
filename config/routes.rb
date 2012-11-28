@@ -1,19 +1,20 @@
 OpdsServer::Application.routes.draw do
+  resources :categories
+
   get "search/index"
 
   devise_for :users
 
   get "home/index"
 
-
-  resources :catalogs do
-    member do
-      get 'add_book'
-      get 'del_book'
-      get 'add_share'
-      get 'del_share'
-    end
-  end
+  get 'catalogs/index'
+  match 'catalogs.atom' => 'catalogs#index', :format => :atom
+  get 'catalogs/all'
+  get 'catalogs/author'
+  get 'catalogs/tags'
+  get 'catalogs/serie'
+  get 'catalogs/featured'
+  get 'catalogs/category'
 
   resources :books
 

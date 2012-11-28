@@ -13,4 +13,19 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
+//= require jquery.imagesloaded
+//= require jquery.masonry
+//= require tree.jquery
+//= require plupload
+
+// optional, but recommended. it sets generic settings like flash url, etc.
+//= require plupload.settings     
+
+// optional, only if you want to use the jquery integration
+//= require jquery.plupload.queue 
+
+// optional, choose the ones you'd like to use
+//= require plupload.html4        
+//= require plupload.html5        
+
 //= require_tree .

@@ -1,0 +1,22 @@
+<h1>Listing categories</h1>
+<%= link_to 'New Category', new_category_path %>
+<br />
+<br />
+<div id="show_category_tree"></div>
+
+<script type='text/javascript'>
+var category_data = [          
+<% Category.roots.order('name asc').each do |category| %>    
+{
+        label: '<%= link_to category.name, category_path(category) %>'        
+      <% unless category.children.empty? %>
+        ,children: [            
+          <% category.children.order('name asc').each do |cat| %>
+            { label: '<%= link_to cat.name, category_path(cat) %>' },
+          <% end %>
+        ]
+      <% end %>
+    },
+<% end %>
+]
+</script>

@@ -1,28 +1,60 @@
-<h1><%= @book.title %></h1>
-<% if @book.cover %>
-	<img class="book_cover_detail" src="<%= @book.cover.medium.url %>" />
-<% end %>
-<div>
-<p>
-  <b>Author</b><br>
-  <%= @book.author %>
-</p>
-
-<p>
-  <b>Description</b><br>
-  <%= @book.description %>
-</p>
-
-<p>
-  <b>Epub</b><br>
-  <%= link_to 'Download', @book.epub.url, :class => 'btn btn-success' %>
-</p>
+<% cache @book do %>
+<div class="span4">
+  <% if @book.cover %>
+    <%= image_tag(@book.cover.large.url, :class => "book_cover_detail") %>
+  <% end %>
 </div>
-<br class="clear" />
-<% if current_user && @book.user_id == current_user.id %>
-<div class="form-actions">
-  <%= link_to 'Back', books_path, :class => 'btn'  %>
-  <%= link_to 'Edit', edit_book_path(@book), :class => 'btn' %>
-  <%= link_to 'Delete', book_path(@book), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
-</div>
+  <div class="book_description span6">
+    <div class="metadata">
+  <h1><%= @book.title %>
+    <% if @book.serie && !@book.serie.blank? %>
+      (<%= link_to @book.serie + ' #' + @book.serie_number.to_s, books_path(:serie => @book.serie) %>)
+    <% end %>
+    <br />
+    <span class="autor">By <%= link_to @book.author, books_path(:author => @book.author) %>    
+    </span>
+  </h1>
+  <% if !@book.description.blank? %>
+  <dl>
+    <dt>Description</dt>
+    <dd><%= @book.description %></dd>
+  </dl>
+  <% end %>
+
+<% if !@book.tag_list.size %>
+  <p>
+    <b>Tag</b><br>
+    <%= @book.tag_list %>
+  </p>
+  <% end %>
+  </div>
+
+<% if @book.category %>
+Category: 
+  <% if @book.category.parent %>
+    <%= link_to @book.category.parent.name, books_path(:category => @book.category.parent.id) %> &raquo;
+  <% end %>
+  <%= link_to @book.category.name, books_path(:category => @book.category.id) %>
 <% end %>
+
+  <p>
+    <b>Epub</b><br>
+    <%= link_to 'Download', @book.epub.url, :class => 'btn btn-success' %>
+    <div class="send-to-readmill" data-download-url="<%= "#{request.protocol}#{request.host_with_port}#{@book.epub.url}" %>"  data-display="small" ></div>
+  </p>
+  </div>
+  <% if current_user && @book.user_id == current_user.id %>
+  <div class="form-actions span12">
+    <%= link_to 'Back', books_path, :class => 'btn'  %>
+    <%= link_to 'Edit', edit_book_path(@book), :class => 'btn' %>
+    <%= link_to 'Delete', book_path(@book), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+  </div>
+  <% end %>
+<% end %>
+<script type="text/javascript">
+(function() {
+  var st = document.createElement('script'); st.type = 'text/javascript'; st.async = true;
+  st.src = 'https://platform.readmill.com/send.js';
+  var p = document.getElementsByTagName('script')[0]; p.parentNode.insertBefore(st, p);
+})();
+</script>

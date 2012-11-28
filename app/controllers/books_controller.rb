@@ -1,30 +1,30 @@
 require 'tempfile'
 
 class BooksController < ApplicationController
-  before_filter :authenticate_user!, :except => :show
-  before_filter :check_owner, :except => [:show, :index, :new, :create]
+  before_filter :authenticate_user!
+  before_filter :check_owner, :except => [:index, :new, :create]
   protect_from_forgery :only => [:destroy]
 
   # GET /books
   # GET /books.xml
   def index
-    @books = Book.includes(:catalogs).where(:user_id => current_user.id).page(params[:page]).order('author ASC')
-
+    search(30)
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @books }
+      format.atom  { render :xml => @books }
       format.json { rendder :json => @books }
+      format.png { render :qrcode => url_for(:controller => 'catalogs', :action => 'index', :format => 'atom',:auth_token => current_user.authentication_token, :only_path => false, :protocol => "opds") }
     end
   end
 
   # GET /books/1
-  # GET /books/1.xml
+  # GET /books/1.atom
   def show
     @book = Book.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @book }
+      format.atom { render :atom => @book }
     end
   end
 
@@ -32,6 +32,7 @@ class BooksController < ApplicationController
   # GET /books/new.xml
   def new
     @book = Book.new
+     @categories = Category.order(:names_depth_cache).map { |c| ["-" * c.depth + c.name,c.id] }
 
     respond_to do |format|
       format.html # new.html.erb
@@ -42,30 +43,28 @@ class BooksController < ApplicationController
   # GET /books/1/edit
   def edit
     @book = Book.find(params[:id])
+     @categories = Category.order(:names_depth_cache).map { |c| ["-" * c.depth + c.name,c.id] }
   end
 
   # POST /books
   # POST /books.xml
-  def create
-    @book = Book.new(params[:book])
-    @book.user_id = current_user.id
-    @book.import_metadata
+  def create    
+    epub = params[:file]
+    logger.debug(epub.inspect)
+    new_book = Book.new()
+    new_book.epub = epub
+    new_book.user_id = current_user.id
+    new_book.import_metadata
 
-    if @book.title.nil? && @book.epub
-      @book.title = File.basename(@book.epub.url, '.epub')
+    if new_book.title.blank? && new_book.epub
+      new_book.title = File.basename(new_book.epub.url, '.epub')
     end
+    
+    new_book.save
 
-    respond_to do |format|
-      if @book.save
-        if(params[:catalog])
-          book_catalog = CatalogBook.create(:catalog_id => params[:catalog][:id], :book_id => @book.id)
-        end
-        format.html { redirect_to(@book, :notice => 'Book was successfully created.') }
-        format.xml  { render :xml => @book, :status => :created, :location => @book }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @book.errors, :status => :unprocessable_entity }
-      end
+    respond_to do |format|      
+        format.html { render :nothing => true }
+        format.xml  { render :xml => books_url, :status => :created, :location => books_url }
     end
   end
 
@@ -73,6 +72,10 @@ class BooksController < ApplicationController
   # PUT /books/1.xml
   def update
     @book = Book.find(params[:id])
+    epub = params[:book][:epub]
+    if epub && epub.content_type == "application/epub+zip"
+      @book.epub = epub
+    end
 
     respond_to do |format|
       if @book.update_attributes(params[:book])
@@ -95,6 +98,14 @@ class BooksController < ApplicationController
       format.html { redirect_to(books_url) }
       format.xml  { head :ok }
     end
+  end
+
+  def exist?
+    Book.first.where(:md5 => params[:md5], :user_id => current_user.id)
+    respond_to do |format|
+      format.xml  { head :ok }
+    end
+
   end
 
   private

@@ -1,16 +1,15 @@
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => "form login"}) do |f| %>
-<%= devise_error_messages! %>
-<div class='well span3'>
+<div class='well span5'>
 	<h3>Already have an account?</h3>
 	<div class="control-group">
 		<div class="controls">
-			<%= f.text_field :email, :class => 'text_field span3', :placeholder => "Your email" %>
+			<%= f.text_field :email, :class => 'text_field span10', :placeholder => "Your email" %>
 		</div>
 	</div>
 	<div class="control-group">
 		<%= f.label :password, :class => 'control-label' %>
 		<div class="controls">
-			<%= f.password_field :password, :class => 'text_field span3', :placeholder => "password" %>
+			<%= f.password_field :password, :class => 'text_field span10', :placeholder => "password" %>
 		</div>
 	</div>
 
@@ -28,9 +27,6 @@
 		<%= f.submit 'Login', :class => 'btn btn-info' %>
 		<%= link_to 'Cancel', home_index_path, :class => 'btn' %>
 	</div>
-<% end %>
-
-	
-	
 </div>
+<% end %>
 

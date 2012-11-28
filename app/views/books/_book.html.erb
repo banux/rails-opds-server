@@ -1,0 +1,16 @@
+<% cache book do %>
+<li class="span2">
+	<div class="thumbnail book_catalog">
+		<% if book.cover && book.cover.thumb %>		
+			<% title = book.title %>
+			<% if ! book.author.nil?
+				title = title + ' - ' + book.author
+			   end %>
+			<%= link_to image_tag(book.cover.thumb, :alt => title, :title => title), book %>
+			<div class="caption">
+				<p><%= link_to title, book %></p>
+			</div>
+		<% end %>
+	</div>		
+</li>
+<% end %>
