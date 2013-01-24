@@ -14,6 +14,14 @@ class CatalogsController < ApplicationController
     end
   end
 
+  def bad_metadata
+    params[:page] ||= 1
+    @books = current_user.books.where("description IS NULL OR description='' OR category_id IS NULL OR lang NOT IN ('fr', 'en')").paginate(:page => params[:page], :per_page => 50)
+    respond_to do |format|
+      format.html { render "books/index"}
+    end
+  end
+
   def author
     @authors = current_user.books.map(&:author).delete_if{|s| s.nil? || s == ''}.uniq.sort
 

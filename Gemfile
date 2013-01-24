@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.11'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -20,6 +20,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
   gem 'jqtree-rails'
   gem 'plupload-rails'
+#  gem 'monocle-rails'
 end
 
 gem 'jquery-rails'
@@ -28,7 +29,7 @@ gem "devise"
 gem 'carrierwave'
 gem "ratom", :require => 'atom'
 gem "ruby-epub", '~> 0.2.1'
-gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
+gem 'twitter-bootstrap-rails'
 gem 'less-rails'
 gem 'mini_magick'
 gem 'mime-types'
@@ -44,6 +45,7 @@ gem 'acts-as-taggable-on', '~> 2.3.1'
 gem 'cache_digests'
 gem 'rqrcode-rails3'
 gem 'closure_tree'
+#gem 'peregrin'
 
 group :production do
   gem "mysql2"

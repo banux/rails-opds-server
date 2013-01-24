@@ -1,12 +1,9 @@
 
-<div>
-	<%= link_to 'Add new', new_book_path, :class => 'btn btn-primary pull-left' %>
-</div>
 <h1></h1>
 <br class="clear" />
 
 <ul class="thumbnails">
-<%= render :partial => 'book', :collection => @books %>
+<%= render :partial => 'books/book', :collection => @books %>
 </ul>
 
 <%= will_paginate @books %>

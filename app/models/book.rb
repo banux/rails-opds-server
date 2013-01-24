@@ -38,6 +38,7 @@ before_save :update_cover_attributes, :generate_uuid #, :generate_md5
       :tags => tag_list,
       :serie_keyword => (serie.blank? ? nil : serie),
       :serie => (serie.blank? ? nil : serie),
+      :serie_number => (serie_number.blank? ? nil : serie_number),
       :category => (category ? category.self_and_ancestors.collect {|c| c.id} : []),
       :lang => self.lang
     }.to_json

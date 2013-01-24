@@ -17,6 +17,8 @@ class ApplicationController < ActionController::Base
     end
     if params[:serie]
       filter_serie = params[:serie]
+      book_sort = 'serie_number'
+      book_sort_order = 'asc'
     end
     if params[:category]
       filter_category = params[:category]
