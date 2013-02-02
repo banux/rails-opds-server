@@ -33,7 +33,8 @@ end
   		  end
       f.link(:href => book_path(book, :format => "atom", :auth_token => params[:auth_token]), :rel => "alternate",
         :type => "http://opds-spec.org/type=entry;profile=opds-catalog",
-        :title => book.title)
+        :title => book.title,
+        :type => "application/atom+xml")
       if book.epub
 			  f.link(:href => book.epub.url,
     			:rel => "http://opds-spec.org/acquisition", 
