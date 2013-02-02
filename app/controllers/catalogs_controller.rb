@@ -23,7 +23,7 @@ class CatalogsController < ApplicationController
   end
 
   def author
-    @authors = current_user.books.map(&:author).delete_if{|s| s.nil? || s == ''}.uniq.sort
+    @authors = current_user.books.map(&:author).delete_if{|s| s.nil? || s == ''}.uniq..sort{ |a,b| a.downcase <=> b.downcase }
 
     respond_to do |format|
       format.html # show.html.erb
@@ -45,7 +45,7 @@ class CatalogsController < ApplicationController
   end
 
   def serie
-    @series = current_user.books.map(&:serie).delete_if{|s| s.nil? || s == ''}.uniq
+    @series = current_user.books.map(&:serie).delete_if{|s| s.nil? || s == ''}.uniq.sort{ |a,b| a.downcase <=> b.downcase }
     logger.debug(@series.inspect)
 
     respond_to do |format|
@@ -54,7 +54,7 @@ class CatalogsController < ApplicationController
   end
 
   def tags
-    @tags = current_user.books.map(&:tag_list).flatten.delete_if{|s| s.nil? || s == ''}.uniq
+    @tags = current_user.books.map(&:tag_list).flatten.delete_if{|s| s.nil? || s == ''}.uniq.sort{ |a,b| a.downcase <=> b.downcase }
 
     respond_to do |format|
       format.html # show.html.erb

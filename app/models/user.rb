@@ -9,4 +9,20 @@ class User < ActiveRecord::Base
 
   has_many :books
 
+  after_save :create_admin, :check_auth_token
+
+  def create_admin
+  	if self.id == 1 && self.admin != true
+  		self.admin = true
+  		self.save
+  	end
+  end
+
+  def check_auth_token
+  	if self.authentication_token.nil?
+  		self.ensure_authentication_token!
+  		self.save
+  	end
+  end
+
 end
