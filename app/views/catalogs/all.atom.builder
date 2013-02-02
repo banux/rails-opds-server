@@ -3,7 +3,7 @@ xml.title  "Catalogs of " + current_user.name + ' All Entry'
 xml.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "start", :href => "/catalogs.atom")
 xml.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "self", :href => catalogs_all_path(:format => "atom"))
 xml.updated  Time.now.xmlschema
-if params[:page] == 1
+if params[:page].nil? || params[:page] == 1
 	@categories.each do |category|
 		xml.entry do |c|
 			c.title category.name

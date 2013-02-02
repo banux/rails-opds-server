@@ -6,7 +6,7 @@ xml.updated  Time.now.xmlschema
 @series.each do |serie|
 	xml.entry do |c|
 		c.title serie
-		c.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "http://opds-spec.org/subsection", :href => catalogs_all_path(:format => "atom", :auth_token => params[:auth_token], :serie => u(serie)))
+		c.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "http://opds-spec.org/subsection", :href => catalogs_all_path(:format => "atom", :auth_token => params[:auth_token], :serie => serie))
 		c.id current_user.id.to_s + '_serie_' + u(serie)
 		c.updated Time.now.utc.xmlschema
 		c.summary "Serie : " + serie

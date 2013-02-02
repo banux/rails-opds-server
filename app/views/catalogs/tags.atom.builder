@@ -6,7 +6,7 @@ xml.updated  Time.now.xmlschema
 @tags.each do |tag|
 	xml.entry do |c|
 		c.title tag
-		c.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "http://opds-spec.org/subsection", :href => catalogs_all_path(:format => "atom", :auth_token => params[:auth_token], :tag => u(tag)))
+		c.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "http://opds-spec.org/subsection", :href => catalogs_all_path(:format => "atom", :auth_token => params[:auth_token], :tag => tag))
 		c.id current_user.id.to_s + '_author_' + u(tag)
 		c.updated Time.now.utc.xmlschema
 		c.summary "By : " + tag
