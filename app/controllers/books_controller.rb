@@ -24,7 +24,7 @@ class BooksController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.atom { render :atom => @book }
+      format.atom { render :atom => @book, :layout => false }
     end
   end
 

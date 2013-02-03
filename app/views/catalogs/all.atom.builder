@@ -31,10 +31,10 @@ end
 	    f.link(:href => book.cover.medium.url, :rel => "http://opds-spec.org/image", :type => book.cover_type)
 	    f.link(:href => book.cover.thumb.url, :rel => "http://opds-spec.org/image/thumbnail", :type => book.cover_type)
   		  end
-      f.link(:href => book_path(book, :format => "atom", :auth_token => params[:auth_token]), :rel => "alternate",
-        :type => "http://opds-spec.org/type=entry;profile=opds-catalog",
-        :title => book.title,
-        :type => "application/atom+xml")
+      f.link(:href => book_path(book, :format => "atom", :auth_token => params[:auth_token]),
+        :rel => "alternate",
+        :type => "application/atom+xml;type=entry;profile=opds-catalog",
+        :title => book.title)
       if book.epub
 			  f.link(:href => book.epub.url,
     			:rel => "http://opds-spec.org/acquisition", 
