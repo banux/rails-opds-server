@@ -16,6 +16,7 @@ OpdsServer::Application.routes.draw do
   get 'catalogs/featured'
   get 'catalogs/category'
   get 'catalogs/bad_metadata'
+  get 'catalogs/reading_list'
 
   resources :books do
     member do

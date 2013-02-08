@@ -73,4 +73,12 @@ class CatalogsController < ApplicationController
     end
   end
 
+  def reading_list
+    @books = current_user.reading.paginate(:page => params[:page], :per_page => 50)
+
+    respond_to do |format|
+      format.html { render "books/index"}
+    end
+  end
+
 end
