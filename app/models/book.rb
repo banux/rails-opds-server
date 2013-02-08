@@ -100,12 +100,14 @@ before_save :update_cover_attributes, :generate_uuid #, :generate_md5
       read.user_id = user.id
       read.book_id = self.id
       read.save
+      self.touch
     end
   end
 
   def unread_book(user)
     read = ReadList.where(:user_id => user.id, :book_id => self.id).first
     read.destroy unless read.nil?
+    self.touch
   end
 
 private
