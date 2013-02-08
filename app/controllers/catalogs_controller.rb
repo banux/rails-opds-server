@@ -63,7 +63,10 @@ class CatalogsController < ApplicationController
   end
 
   def featured
-    @books = current_user.books.limit(20).order('created_at desc')
+    @books = current_user.reading
+    if @books.empty?
+      @books = current_user.books.limit(20).order('created_at desc')
+    end
 
     respond_to do |format|
       format.atom { render :atom => @books }

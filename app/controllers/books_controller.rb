@@ -21,6 +21,7 @@ class BooksController < ApplicationController
   # GET /books/1.atom
   def show
     @book = Book.find(params[:id])
+    @read = ReadList.where(:user_id => current_user.id, :book_id => @book.id).first
 
     respond_to do |format|
       format.html # show.html.erb
@@ -106,6 +107,18 @@ class BooksController < ApplicationController
       format.xml  { head :ok }
     end
 
+  end
+
+  def read_book
+    @book = Book.find(params[:id])
+    @book.read_book(current_user)
+    redirect_to(@book, :notice => 'Book was successfully added to your reading list')
+  end
+
+  def unread_book
+    @book = Book.find(params[:id])
+    @book.unread_book(current_user)
+    redirect_to(@book, :notice => 'Book was successfully delete from your reading list')
   end
 
   private

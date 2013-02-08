@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :name
 
   has_many :books
+  has_many :read_lists
+  has_many :reading, :through => :read_lists, :source => :book
 
   after_save :create_admin, :check_auth_token
 

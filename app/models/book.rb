@@ -11,6 +11,7 @@ mount_uploader :cover, CoverUploader
 
 belongs_to :user
 belongs_to :category
+has_many :read_lists
 validates_uniqueness_of :title, :scope => [:user_id, :author]
 validates_presence_of :title
 
@@ -90,6 +91,21 @@ before_save :update_cover_attributes, :generate_uuid #, :generate_md5
       logger.debug(e)
       logger.info("can't parse epub " + self.epub.to_s)
     end
+  end
+
+  def read_book(user)
+    read = ReadList.where(:user_id => user.id, :book_id => self.id).first
+    if read.nil?
+      read = ReadList.new
+      read.user_id = user.id
+      read.book_id = self.id
+      read.save
+    end
+  end
+
+  def unread_book(user)
+    read = ReadList.where(:user_id => user.id, :book_id => self.id).first
+    read.destroy unless read.nil?
   end
 
 private

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121123202358) do
+ActiveRecord::Schema.define(:version => 20121125210628) do
 
   create_table "books", :force => true do |t|
     t.string   "author"
@@ -49,6 +49,14 @@ ActiveRecord::Schema.define(:version => 20121123202358) do
 
   add_index "category_hierarchies", ["ancestor_id", "descendant_id"], :name => "index_category_hierarchies_on_ancestor_id_and_descendant_id", :unique => true
   add_index "category_hierarchies", ["descendant_id"], :name => "index_category_hierarchies_on_descendant_id"
+
+  create_table "read_lists", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "book_id"
+    t.integer  "position"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"

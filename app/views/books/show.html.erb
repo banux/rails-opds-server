@@ -40,6 +40,11 @@ Category:
   <p>
     <b>Epub</b><br>
     <%= link_to 'Download', @book.epub.url, :class => 'btn btn-success' %>
+    <% if @read.nil? %>
+      <%= link_to 'Add to Reading List', read_book_book_path(@book), :class => 'btn btn-success' %>
+     <% else %>
+      <%= link_to 'Remove from Reading List', unread_book_book_path(@book), :class => 'btn btn-danger' %>
+    <% end %>
     <div class="send-to-readmill" data-download-url="<%= "#{request.protocol}#{request.host_with_port}#{@book.epub.url}" %>"  data-display="small" ></div>
   </p>
   </div>
