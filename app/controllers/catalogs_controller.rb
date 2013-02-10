@@ -75,9 +75,11 @@ class CatalogsController < ApplicationController
 
   def reading_list
     @books = current_user.reading.paginate(:page => params[:page], :per_page => 50)
+    @categories = []
 
     respond_to do |format|
       format.html { render "books/index"}
+      format.atom { render :template => "catalogs/all" }
     end
   end
 

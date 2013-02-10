@@ -5,6 +5,15 @@ xml.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", 
 xml.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "http://opds-spec.org/featured", :href => catalogs_featured_path(:format => "atom"), :title => "Featured")
 xml.link(:type => "application/opensearchdescription+xml", :rel => "search", :href => "/search.xml")
 xml.updated Time.now.utc.xmlschema
+
+xml.entry do |c|
+	c.title 'My reading list'
+	c.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "http://opds-spec.org/subsection", :href => catalogs_reading_list_path(:format => "atom", :auth_token => params[:auth_token]))
+	c.id current_user.id.to_s + '_reading'
+	c.updated Time.now.utc.xmlschema
+	c.summary "My reading list"
+end
+
 xml.entry do |c|
 	c.title 'All entry'
 	c.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "http://opds-spec.org/subsection", :href => catalogs_all_path(:format => "atom", :auth_token => params[:auth_token]))
