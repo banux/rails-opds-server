@@ -44,7 +44,7 @@ Category:
      <% else %>
       <%= link_to 'Remove from Reading List', unread_book_book_path(@book), :class => 'btn btn-danger' %>
     <% end %>
-    <div class="send-to-readmill" data-download-url="<%= "#{request.protocol}#{request.host_with_port}#{@book.epub.url}" %>"  data-display="small" ></div>
+    <div class="send-to-readmill" data-download-url="<%= "#{request.protocol}#{request.host_with_port}#{book_path(@book, :format => 'atom', :auth_token => current_user.authentication_token)}" %>"  data-display="small" ></div>
   </p>
 </div>
 <% if current_user && @book.user_id == current_user.id %>
