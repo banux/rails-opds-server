@@ -89,7 +89,7 @@
               <%= link_to('OPDS Link', :controller => 'catalogs', :action => 'index', :format => 'atom',:auth_token => current_user.authentication_token, :only_path => false, :protocol => "opds") %>
             </ul>
             <% end %>
-            <% if @facets %>
+            <% unless @facets.blank? %>
             <hr />
             <ul class="nav nav-list">
               <% if !@facets['author'].nil? %>              

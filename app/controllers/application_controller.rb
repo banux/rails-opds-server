@@ -6,68 +6,23 @@ class ApplicationController < ActionController::Base
     if current_user
       user_id = current_user.id
     end
-    query = params[:q] if params[:q]
-    tag = params[:tag] if params[:tag]
-
-    if params[:author]
-      filter_author = params[:author]
-    end
-    if params[:tag]
-      filter_tag = params[:tag]
-    end
     if params[:serie]
-      filter_serie = params[:serie]
       book_sort = 'serie_number'
       book_sort_order = 'asc'
     end
-    if params[:category]
-      filter_category = params[:category]
-    end
-    if params[:lang]
-      filter_lang = params[:lang]
-    end
 
     book_sort ||= 'created_at'
-    book_sort_order ||= 'desc' 
+    book_sort_order ||= 'desc'
 
-    @books = Book.search :page => (params[:page] || 1), :per_page => per_page, :load => true do
-       query do 
-        boolean do
-          must { term :user_id, user_id }
-          must { string query } if query
-          must { term :author_keyword, filter_author } if filter_author
-          must { term :tags, filter_tag } if filter_tag
-          must { term :serie_keyword, filter_serie } if filter_serie
-          must { term :lang, filter_lang } if filter_lang
-          must { term :category, filter_category } if filter_category
-        end
-      end    
-
-      sort { by book_sort, book_sort_order }
-
-      facet "author" do
-        terms 'author_keyword'
-      end
-      facet "tag" do
-        terms 'tags'
-      end
-      facet "serie" do
-        terms 'serie_keyword'
-      end
-
-      facet "lang" do
-        terms 'lang'
-      end
-
-      if filter_category
-        regex_category = Category.find(filter_category).children.map(&:id).join('|')
-      else        
-        regex_category = Category.roots.map(&:id).join('|')
-      end
-      facet "category" do
-        terms 'category', :regex_flags => "DOTALL", :regex => regex_category 
-      end
+    @books = Book.where(:user_id => user_id).paginate(:page => params[:page], :per_page => per_page).order(book_sort + " " + book_sort_order.upcase)
+    @books = @books.where(:serie => params[:serie]) if params[:serie]
+    @books = @books.where(:author => params[:author]) if params[:author]
+    @books = @books.where(:lang => params[:lang]) if params[:lang]
+    if params[:q]
+      query = '%' + params[:q] + '%'
+      @books = @books.where("title LIKE ? OR description LIKE ?", query, query)
     end
-    @facets = @books.facets
+    @books = @books.joins(:category).where('categories.id' => params[:category]) if params[:category]
+    @books = @books.joins(:tags).where('tags.name' => params[:tag]) if params[:tag]
   end
 end

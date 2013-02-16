@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.12'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -27,7 +27,6 @@ gem 'jquery-rails'
 gem "devise"
 #gem 'devise_invitable'
 gem 'carrierwave'
-gem "ratom", :require => 'atom'
 gem "ruby-epub", '~> 0.2.1'
 gem 'twitter-bootstrap-rails'
 gem 'less-rails'
@@ -36,10 +35,8 @@ gem 'mime-types'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 gem 'uuidtools'
-gem 'exception_notification'
 gem 'tire'
 gem 'tire-contrib'
-gem 'newrelic_rpm'
 gem 'sanitize'
 gem 'acts-as-taggable-on', '~> 2.3.1'
 gem 'cache_digests'
@@ -48,8 +45,6 @@ gem 'closure_tree'
 #gem 'peregrin'
 
 group :production do
-  gem "mysql2"
-  gem 'memcache-client'
 end
 
 # To use ActiveModel has_secure_password
@@ -60,9 +55,6 @@ end
 
 # Use unicorn as the app server
 # gem 'unicorn'
-
-# Deploy with Capistrano
-gem 'capistrano'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
