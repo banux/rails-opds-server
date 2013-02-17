@@ -88,6 +88,8 @@ GEM
     plupload-rails (1.0.6)
       rails (~> 3.1)
     polyglot (0.3.3)
+    puma (1.6.3)
+      rack (~> 1.2)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -184,6 +186,7 @@ DEPENDENCIES
   mime-types
   mini_magick
   plupload-rails
+  puma
   rails (= 3.2.12)
   rqrcode-rails3
   ruby-epub (~> 0.2.1)

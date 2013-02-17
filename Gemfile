@@ -43,6 +43,7 @@ gem 'cache_digests'
 gem 'rqrcode-rails3'
 gem 'closure_tree'
 #gem 'peregrin'
+gem 'puma'
 
 group :production do
 end
