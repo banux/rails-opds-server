@@ -15,7 +15,8 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'therubyracer', '0.11.0beta5'
+  gem 'libv8'
+  gem 'therubyracer'
 
   gem 'uglifier', '>= 1.0.3'
   gem 'jqtree-rails'
@@ -35,8 +36,6 @@ gem 'mime-types'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 gem 'uuidtools'
-gem 'tire'
-gem 'tire-contrib'
 gem 'sanitize'
 gem 'acts-as-taggable-on', '~> 2.3.1'
 gem 'cache_digests'
@@ -53,9 +52,6 @@ end
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
-
-# Use unicorn as the app server
-# gem 'unicorn'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
