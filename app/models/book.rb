@@ -2,8 +2,6 @@ require 'digest/md5'
 
 class Book < ActiveRecord::Base
 
-include Tire::Model::Search
-include Tire::Model::Callbacks
 acts_as_taggable
 
 mount_uploader :epub, EpubUploader
@@ -15,35 +13,7 @@ has_many :read_lists
 validates_uniqueness_of :title, :scope => [:user_id, :author]
 validates_presence_of :title
 
-  tire.mapping do
-        indexes :id, :index => :not_analyzed
-        indexes :author_keyword, :type => 'string', :analyzer => 'keyword'
-        indexes :created_at, :type => 'date'
-        indexes :tags, :type => "string", :analyzer => "keyword"
-        indexes :serie_keyword, :type => "string", :analyzer => "keyword"
-        indexes :serie, :type => "string"
-        indexes :category, :index => :not_analyzed
-        indexes :lang, :type => "string", :analyzer => "keyword"
-  end
-
 before_save :update_cover_attributes, :generate_uuid #, :generate_md5
-
-  def to_indexed_json
-    {
-      :title => self.title,
-      :description => self.description,
-      :author => self.author,
-      :author_keyword => self.author,
-      :user_id => self.user_id,
-      :created_at => self.created_at,
-      :tags => tag_list,
-      :serie_keyword => (serie.blank? ? nil : serie),
-      :serie => (serie.blank? ? nil : serie),
-      :serie_number => (serie_number.blank? ? nil : serie_number),
-      :category => (category ? category.self_and_ancestors.collect {|c| c.id} : []),
-      :lang => self.lang
-    }.to_json
-  end
 
   def description
     Sanitize.clean(read_attribute(:description), Sanitize::Config::RESTRICTED)

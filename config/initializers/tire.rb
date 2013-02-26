@@ -1,1 +1,0 @@
-require 'tire/rails/logger'

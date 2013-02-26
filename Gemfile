@@ -22,6 +22,9 @@ group :assets do
   gem 'jqtree-rails'
   gem 'plupload-rails'
 #  gem 'monocle-rails'
+	gem 'twitter-bootstrap-rails'
+	gem 'less-rails'
+	gem 'bootstrap-will_paginate'
 end
 
 gem 'jquery-rails'
@@ -29,12 +32,9 @@ gem "devise"
 #gem 'devise_invitable'
 gem 'carrierwave'
 gem "ruby-epub", '~> 0.2.1'
-gem 'twitter-bootstrap-rails'
-gem 'less-rails'
 gem 'mini_magick'
 gem 'mime-types'
 gem 'will_paginate'
-gem 'bootstrap-will_paginate'
 gem 'uuidtools'
 gem 'sanitize'
 gem 'acts-as-taggable-on', '~> 2.3.1'
