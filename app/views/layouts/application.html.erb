@@ -84,9 +84,11 @@
         <div class="span3">
 <div class="well sidebar-nav visible-desktop">
             <% if current_user %>
-            <ul class="nav nav-list">
+            <ul class="nav nav-list">              
+              <% if ["books", "catalogs"].include?(controller.controller_name) %>
               <img src="<%= url_for(:controller => 'books', :action => 'index', :format => 'png') %>" class = "qrcode_img" />
               <%= link_to('OPDS Link', :controller => 'catalogs', :action => 'index', :format => 'atom',:auth_token => current_user.authentication_token, :only_path => false, :protocol => "opds") %>
+              <% end %>
             </ul>
             <% end %>
             <% if @facets %>

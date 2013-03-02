@@ -124,11 +124,12 @@ class BooksController < ApplicationController
   private
 
   def check_owner
-    book = Book.find_by_id(:first, params[:id])
+    logger.debug("check book")
+    book = Book.find(params[:id])
     if book && book.user_id == current_user.id
       return true
     end
-    return false
+    raise ActionController::RoutingError.new('Not Found')
   end
 
 end
