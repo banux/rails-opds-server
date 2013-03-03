@@ -1,0 +1,14 @@
+<h1>My share</h1>
+<ul>
+<% @shares.each do |share| %>
+	<li><%= share.share_user.name %> <%= link_to "Destroy", catalogs_share_path(:id => share.id), :class => 'btn btn-danger' %></li>
+<% end %>
+</ul>
+
+<hr />
+
+<%= form_tag do %>
+<label>Enter user name or email</label>
+	<%= text_field :user_info, '' %>
+	<%= submit_tag 'Add', :class => 'btn btn-success' %>
+<% end %>

@@ -1,11 +1,16 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :authenticate_user!, :only => [:search]
+  before_filter :check_view
 
-   def search(catalogs_available = nil, per_page = 50)
-    if current_user
-      user_id = current_user.id
+   def search(per_page = 50)
+    logger.debug(@users.inspect)
+    if @users.nil?
+      users = [@user.id]
+    else
+      users = @users
     end
+    logger.debug(@users.inspect)
     query = params[:q] if params[:q]
     tag = params[:tag] if params[:tag]
 
@@ -33,7 +38,7 @@ class ApplicationController < ActionController::Base
     @books = Book.search :page => (params[:page] || 1), :per_page => per_page, :load => true do
        query do 
         boolean do
-          must { term :user_id, user_id }
+          must { terms :user_id, users }
           must { string query } if query
           must { term :author_keyword, filter_author } if filter_author
           must { term :tags, filter_tag } if filter_tag
@@ -69,5 +74,16 @@ class ApplicationController < ActionController::Base
       end
     end
     @facets = @books.facets
+  end
+
+  private
+
+  def check_view
+    if params[:user_id]
+      @user = User.find(params[:user_id])
+    else
+      @user = current_user
+    end
+    return true
   end
 end

@@ -1,7 +1,7 @@
 class SearchController < ApplicationController
   before_filter :authenticate_user!
 
-  def index  
+  def index  	
     search(50)
 
     respond_to do |format|

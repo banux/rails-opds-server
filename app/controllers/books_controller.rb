@@ -8,6 +8,10 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.xml
   def index
+    @user = current_user
+    if params[:q]
+      @users = [current_user.id] + CatalogShare.where(:share_user_id => current_user.id).map(&:user_id)
+    end
     search(30)
     respond_to do |format|
       format.html # index.html.erb
@@ -126,7 +130,7 @@ class BooksController < ApplicationController
   def check_owner
     logger.debug("check book")
     book = Book.find(params[:id])
-    if book && book.user_id == current_user.id
+    if book && (book.user_id == current_user.id || current_user.catalog_shares.map(&:user_id).include?(book.user_id))
       return true
     end
     raise ActionController::RoutingError.new('Not Found')

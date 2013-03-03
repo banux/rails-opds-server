@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
   has_many :books
   has_many :read_lists
   has_many :reading, :through => :read_lists, :source => :book
+  has_many :catalog_shares, :foreign_key => :share_user_id
+  has_many :catalogs, :through => :catalog_shares, :source => :user
 
   after_save :create_admin, :check_auth_token
 

@@ -9,14 +9,16 @@ OpdsServer::Application.routes.draw do
 
   get 'catalogs/index'
   match 'catalogs.atom' => 'catalogs#index', :format => :atom
-  get 'catalogs/all'
-  get 'catalogs/author'
-  get 'catalogs/tags'
-  get 'catalogs/serie'
-  get 'catalogs/featured'
-  get 'catalogs/category'
+  match 'catalogs/:user_id/all' => "catalogs#all", :as => "catalogs_all"
+  match 'catalogs/:user_id/author' => "catalogs#author", :as => "catalogs_author"
+  match 'catalogs/:user_id/tags' => "catalogs#tags", :as => "catalogs_tags"
+  match 'catalogs/:user_id/serie' => "catalogs#serie", :as => "catalogs_serie"
+  match 'catalogs/:user_id/featured' => "catalogs#featured", :as => "catalogs_featured"
+  match 'catalogs/:user_id/category' => "catalogs#category", :as => "catalogs_category"
   get 'catalogs/bad_metadata'
   get 'catalogs/reading_list'
+  get 'catalogs/share'
+  post 'catalogs/share'
 
   resources :books do
     member do

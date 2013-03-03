@@ -1,6 +1,10 @@
 class CatalogsController < ApplicationController
   before_filter :authenticate_user!
 
+  def index
+
+  end
+
   def all    
     search(50)
     if params[:category]
@@ -23,7 +27,7 @@ class CatalogsController < ApplicationController
   end
 
   def author
-    @authors = current_user.books.map(&:author).delete_if{|s| s.nil? || s == ''}.uniq.sort{ |a,b| a.downcase <=> b.downcase }
+    @authors = @user.books.map(&:author).delete_if{|s| s.nil? || s == ''}.uniq.sort{ |a,b| a.downcase <=> b.downcase }
 
     respond_to do |format|
       format.html # show.html.erb
@@ -45,7 +49,7 @@ class CatalogsController < ApplicationController
   end
 
   def serie
-    @series = current_user.books.map(&:serie).delete_if{|s| s.nil? || s == ''}.uniq.sort{ |a,b| a.downcase <=> b.downcase }
+    @series = @user.books.map(&:serie).delete_if{|s| s.nil? || s == ''}.uniq.sort{ |a,b| a.downcase <=> b.downcase }
     logger.debug(@series.inspect)
 
     respond_to do |format|
@@ -54,7 +58,7 @@ class CatalogsController < ApplicationController
   end
 
   def tags
-    @tags = current_user.books.map(&:tag_list).flatten.delete_if{|s| s.nil? || s == ''}.uniq.sort{ |a,b| a.downcase <=> b.downcase }
+    @tags = @user.books.map(&:tag_list).flatten.delete_if{|s| s.nil? || s == ''}.uniq.sort{ |a,b| a.downcase <=> b.downcase }
 
     respond_to do |format|
       format.html # show.html.erb
@@ -63,9 +67,9 @@ class CatalogsController < ApplicationController
   end
 
   def featured
-    @books = current_user.reading
+    @books = @user.reading
     if @books.empty?
-      @books = current_user.books.limit(20).order('created_at desc')
+      @books = @user.books.limit(20).order('created_at desc')
     end
 
     respond_to do |format|
@@ -74,7 +78,7 @@ class CatalogsController < ApplicationController
   end
 
   def reading_list
-    @books = current_user.reading.paginate(:page => params[:page], :per_page => 50)
+    @books = @user.reading.paginate(:page => params[:page], :per_page => 50)
     @categories = []
 
     respond_to do |format|
@@ -82,5 +86,32 @@ class CatalogsController < ApplicationController
       format.atom { render :template => "catalogs/all" }
     end
   end
+
+  def share
+    if params[:user_info]
+      user = User.where("email = ? OR name = ?", params[:user_info], params[:user_info]).first
+      if user
+        c = CatalogShare.new
+        c.user_id = current_user.id
+        c.share_user_id = user.id
+        c.save
+      else
+        flash[:notice] = "Can't find the user."
+      end
+    end
+    if params[:id]
+      c = CatalogShare.find(params[:id])
+      if c.user_id == current_user.id
+        c.destroy
+        flash[:notice] = "The share is destroy."
+      else
+        raise ActionController::RoutingError.new('Not authorized')
+      end
+    end
+    @shares = CatalogShare.where(:user_id => current_user.id)
+    respond_to do |format|
+      format.html { render "catalogs/share"}
+    end
+  end  
 
 end
