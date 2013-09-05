@@ -15,8 +15,8 @@ xml.tag!("entry", {"xmlns".to_sym => "http://www.w3.org/2005/Atom", "xmlns:thr".
   end
   if @book.epub
     xml.link(:href => "#{request.protocol}#{request.host_with_port}#{@book.epub.url}",
-      :rel => "http://opds-spec.org/acquisition", 
-      :type => "application/epub+zip") 
+      :rel => "http://opds-spec.org/acquisition",
+      :type => "application/epub+zip")
   end
 
   if @book.cover
@@ -30,6 +30,6 @@ xml.tag!("entry", {"xmlns".to_sym => "http://www.w3.org/2005/Atom", "xmlns:thr".
    xml.link(:type => "application/atom+xml", :rel => "related", :href => catalogs_all_path(:format => "atom", :auth_token => params[:auth_token], :author => @book.author, :user_id => @user.id), :title => "From the same author: " + @book.author)
   end
   if @book.category
-   xml.link(:type => "application/atom+xml", :rel => "related", :href => catalogs_all_path(:format => "atom", :auth_token => params[:auth_token], :category => @book.category.id, :user_id => @user.user_id), :title => "From the same category: " + @book.category.name)
+   xml.link(:type => "application/atom+xml", :rel => "related", :href => catalogs_all_path(:format => "atom", :auth_token => params[:auth_token], :category => @book.category.id, :user_id => @user.id), :title => "From the same category: " + @book.category.name)
   end
 end
