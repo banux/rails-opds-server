@@ -5,6 +5,7 @@
 		feed.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "start", :href => "/catalogs.atom")
 		feed.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "self", :href => catalog_path(@catalog, :format => "atom"))
 		feed.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "http://opds-spec.org/featured", :href => featured_catalog_path(@catalog, :format => "atom"), :title => "Featured")
+		feed.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "http://opds-spec.org/shelf", :href => featured_catalog_path(@catalog, :format => "atom"), :title => "Reading List")
 		feed.link(:type => "application/opensearchdescription+xml", :rel => "search", :href => "/search.xml")
 		feed.updated  @catalog.updated_at
 		feed.entry do |c|
