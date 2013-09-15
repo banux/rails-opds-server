@@ -4,6 +4,6 @@
   <Description>Search MyOpds</Description>
   <InputEncoding>UTF-8</InputEncoding>
   <OutputEncoding>UTF-8</OutputEncoding>
-  <Url type="application/atom+xml" template="http://myopds.com/search/index.atom?q={searchTerms}"/>
+  <Url type="application/atom+xml" template="<%= request.protocol + request.host_with_port %>/search/index.atom?q={searchTerms}"/>
   <Query role="example" searchTerms="robot" />
 </OpenSearchDescription>

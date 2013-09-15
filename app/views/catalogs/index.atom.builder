@@ -1,12 +1,12 @@
-xml.id @user.id
-xml.title  "Catalogs of " + @user.name
 xml.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "start", :href => "/catalogs.atom")
 if current_user.id == @user.id
 	xml.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "self", :href => "/catalogs.atom")
-else	
+else
 	xml.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "self", :href => "/catalogs.atom?user_id=#{@user.id}")
 end
-xml.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "http://opds-spec.org/featured", :href => catalogs_featured_path(:format => "atom", :user_id => @user.id), :title => "Featured")
+xml.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "http://opds-spec.org/featured", :href => catalogs_reading_list_path(:format => "atom", :auth_token => params[:auth_token]), :title => "Reading List")
+xml.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "http://opds-spec.org/shelf", :href => catalogs_reading_list_path(:format => "atom", :auth_token => params[:auth_token]), :title => "Reading List")
+xml.link(:type => "application/atom+xml;profile=opds-catalog;kind=acquisition", :rel => "http://opds-spec.org/sort/new", :href => catalogs_all_path(:format => "atom", :auth_token => params[:auth_token], :user_id => @user.id), :title => "All catalog")
 xml.link(:type => "application/opensearchdescription+xml", :rel => "search", :href => "/search.xml")
 xml.updated Time.now.utc.xmlschema
 
