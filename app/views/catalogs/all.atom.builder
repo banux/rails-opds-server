@@ -7,6 +7,46 @@ xml.updated  Time.now.xmlschema
 	xml.link(:title => category.name, :href => catalogs_all_path(:format => "atom", :auth_token => params[:auth_token], :category => category.id), :rel => "http://opds-spec.org/facet", 'opds:facetGroup' => "Category", :type => "application/atom+xml;profile=opds-catalog;kind=acquisition")
 end
 
+unless @facets.nil?
+	@facets['lang']['terms'].each do |f|
+		f_hash = {:title => f['term'],
+				:href => catalogs_all_path(:format => "atom", :auth_token => params[:auth_token], :lang => f['term']),
+				:rel => "http://opds-spec.org/facet",
+				'opds:facetGroup' => "Language",
+				:type => "application/atom+xml;profile=opds-catalog;kind=acquisition"}
+		if params[:lang] && params[:lang] == f['term']
+			f_hash.update('opds:activeFacet' => "true")
+		end
+		xml.link f_hash
+	end
+
+	@facets['author']['terms'].each do |f|
+		f_hash = {:title => f['term'],
+				:href => catalogs_all_path(:format => "atom", :auth_token => params[:auth_token], :author => f['term']),
+				:rel => "http://opds-spec.org/facet",
+				'opds:facetGroup' => "Author",
+				:type => "application/atom+xml;profile=opds-catalog;kind=acquisition"}
+		if params[:author] && params[:author] == f['term']
+			f_hash.update('opds:activeFacet' => "true")
+		end
+		xml.link f_hash
+	end
+
+	@facets['serie']['terms'].each do |f|
+		f_hash = {:title => f['term'],
+				:href => catalogs_all_path(:format => "atom", :auth_token => params[:auth_token], :serie => f['term']),
+				:rel => "http://opds-spec.org/facet",
+				'opds:facetGroup' => "Serie",
+				:type => "application/atom+xml;profile=opds-catalog;kind=acquisition"}
+		if params[:serie] && params[:serie] == f['term']
+			f_hash.update('opds:activeFacet' => "true")
+		end
+		xml.link f_hash
+	end
+
+end
+
+
 @books.each do |book|
 	xml.entry do |f|
 	   render partial: 'books/book', :locals => {feed: f, book: book}
