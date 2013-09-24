@@ -19,6 +19,7 @@ OpdsServer::Application.routes.draw do
   get 'catalogs/reading_list'
   get 'catalogs/share'
   post 'catalogs/share'
+  get 'catalogs/author'
   get 'search.xml' => "search#opensearch", defaults: { format: "xml" }
 
   resources :books do
