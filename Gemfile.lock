@@ -59,11 +59,10 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     commonjs (0.2.7)
-    devise (3.2.2)
+    devise (3.0.4)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
-      thread_safe (~> 0.1)
       warden (~> 1.2.3)
     erubis (2.7.0)
     exception_notification (4.0.1)
@@ -140,10 +139,6 @@ GEM
     rqrcode (0.4.2)
     rqrcode-rails3 (0.1.7)
       rqrcode (>= 0.4.2)
-    ruby-epub (0.2.8)
-      nokogiri
-      rubyzip
-    rubyzip (1.1.0)
     sanitize (2.0.6)
       nokogiri (>= 1.4.4)
     sass (3.2.12)
@@ -212,7 +207,7 @@ DEPENDENCIES
   carrierwave
   closure_tree
   coffee-rails (~> 3.2.1)
-  devise
+  devise (~> 3.0.1)
   exception_notification
   jqtree-rails
   jquery-rails
@@ -225,7 +220,6 @@ DEPENDENCIES
   rails (= 3.2.16)
   ratom
   rqrcode-rails3
-  ruby-epub (~> 0.2.1)
   sanitize
   sass-rails (~> 3.2.3)
   sqlite3

@@ -24,11 +24,11 @@ group :assets do
 end
 
 gem 'jquery-rails'
-gem "devise"
+gem "devise", "~> 3.0.1"
 #gem 'devise_invitable'
 gem 'carrierwave'
 gem "ratom", :require => 'atom'
-gem "ruby-epub", '~> 0.2.1'
+#gem "ruby-epub", '~> 0.2.1'
 gem 'twitter-bootstrap-rails'
 gem 'less-rails'
 gem 'mini_magick'
