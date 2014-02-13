@@ -44,6 +44,8 @@ gem 'acts-as-taggable-on', '~> 2.3.1'
 gem 'cache_digests'
 gem 'rqrcode-rails3'
 gem 'closure_tree'
+gem 'attr_encrypted'
+gem "curb"
 #gem 'peregrin'
 
 group :production do

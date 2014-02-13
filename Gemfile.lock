@@ -33,6 +33,8 @@ GEM
     ansi (1.4.3)
     arel (3.0.3)
     atomic (1.1.14)
+    attr_encrypted (1.3.2)
+      encryptor (>= 1.3.0)
     bcrypt-ruby (3.1.2)
     bootstrap-will_paginate (0.0.10)
       will_paginate
@@ -59,11 +61,13 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     commonjs (0.2.7)
+    curb (0.8.3)
     devise (3.0.4)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
       warden (~> 1.2.3)
+    encryptor (1.3.0)
     erubis (2.7.0)
     exception_notification (4.0.1)
       actionmailer (>= 3.0.4)
@@ -201,12 +205,14 @@ PLATFORMS
 
 DEPENDENCIES
   acts-as-taggable-on (~> 2.3.1)
+  attr_encrypted
   bootstrap-will_paginate
   cache_digests
   capistrano
   carrierwave
   closure_tree
   coffee-rails (~> 3.2.1)
+  curb
   devise (~> 3.0.1)
   exception_notification
   jqtree-rails

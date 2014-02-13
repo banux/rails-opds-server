@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130210205956) do
+ActiveRecord::Schema.define(:version => 20140213125105) do
 
   create_table "books", :force => true do |t|
     t.string   "author"
@@ -33,11 +33,26 @@ ActiveRecord::Schema.define(:version => 20130210205956) do
 
   add_index "books", ["md5"], :name => "index_books_on_md5"
 
+  create_table "catalog_books", :force => true do |t|
+    t.integer  "catalog_id"
+    t.integer  "book_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "catalog_shares", :force => true do |t|
     t.integer  "user_id"
     t.integer  "share_user_id"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+  end
+
+  create_table "catalogs", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "user_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "categories", :force => true do |t|
@@ -56,6 +71,15 @@ ActiveRecord::Schema.define(:version => 20130210205956) do
 
   add_index "category_hierarchies", ["ancestor_id", "descendant_id"], :name => "index_category_hierarchies_on_ancestor_id_and_descendant_id", :unique => true
   add_index "category_hierarchies", ["descendant_id"], :name => "index_category_hierarchies_on_descendant_id"
+
+  create_table "opds_services", :force => true do |t|
+    t.string   "url"
+    t.string   "login"
+    t.string   "password"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "read_lists", :force => true do |t|
     t.integer  "user_id"
